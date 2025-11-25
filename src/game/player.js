@@ -1,4 +1,4 @@
-import { Sprite, Matrix } from "pixi.js";
+import { Sprite, Container, Text } from "pixi.js";
 import { eventBus } from "../shared/event_bus";
 import { packets } from "../net/protocol";
 
@@ -6,18 +6,36 @@ export class Player {
     #id;
 
     constructor(texture, id, x, y) {
+        this.container = new Container();
+
         console.log("Player constructor");
-        this.sprite = new Sprite(texture);
-        this.sprite.anchor.set(0.5);
-        this.sprite.x = x;
-        this.sprite.y = y;
+        const sprite = new Sprite(texture);
+        const text = new Text({
+            text: id,
+            style: {
+                fontFamily: 'Arial',
+                fontSize: 14,
+                fill: 0xff1010,
+            }
+        });
+
+        this.container.addChild(sprite);
+        this.container.addChild(text);
+
+        this.container.x = x;
+        this.container.y = y;
+
+
         this.#id = id;
     }
 
     getID() { return this.#id; }
+
+    getRender() { return this.container; }
+
     translate(x, y) { 
-        this.sprite.x = x;
-        this.sprite.y = y;
+        this.container.x = x;
+        this.container.y = y;
     };
 
     setKeyboards() {

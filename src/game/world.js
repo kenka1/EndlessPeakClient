@@ -6,7 +6,7 @@ import { Player } from "./player";
 export class World {
     constructor(gameAssets) {
         this.gameAssets = gameAssets;
-        this.players = [];
+        this.players = new Map();
         this.container = new Container();
 
         // TODO can not eventBus.off this anonymous function
@@ -17,16 +17,20 @@ export class World {
         console.log("game handle packet");
 
         const view = new DataView(packet);
+        let data = {};
 
         const opcode = view.getInt16(0, false);
         switch (opcode) {
             case 0x0003:
                 console.log("handlePacket(create player)");
-                this.createMainPlayer(protocol.getCreatePlayrData(packet));
+                data = protocol.getCreatePlayrData(packet);
+                console.log(data);
+                this.createMainPlayer(data.id, data.x, data.y);
                 break;
-            // case 0x0004:
-            //     console.log("handlePacket(spawn players)");
-            //     this.spawnPlayers(protocol.getSpawnPlayersData(packet));
+            case 0x0004:
+                console.log("handlePacket(spawn players)");
+                data = protocol.getSpawnPlayersData(packet);
+                this.spawnPlayers(data.players, data.playersNumber);
                 break;
             case 0x0011:
                 console.log("handlePacket(move forward)");
@@ -42,48 +46,70 @@ export class World {
                 break;
             case 0x0015:
                 console.log("handlePacket(move player)");
-                this.movePlayer(protocol.getMoveData(packet));
+                data = protocol.getMoveData(packet);
+                this.movePlayer(data.id, data.x, data.y);
                 break;
             case 0x0016:
                 console.log("handlePacket(add player)");
-                this.createPlayer(protocol.getAddPlayerData(packet));
+                data = protocol.getAddPlayerData(packet);
+                this.addPlayer(data.id, data.x, data.y);
+                break;
+            case 0x0017:
+                console.log("handlePacket(rmv player)");
+                data = protocol.getRmvPlayerData(packet);
+                this.rmvPlayer(data.id);
                 break;
             default:
                 console.log("handlePacket(unknown opcode)");
         }
     }
 
-    createMainPlayer(data) {
-        const player = new Player(this.gameAssets.player_default, data.id, data.x, data.y);
+    createMainPlayer(id, x, y) {
+        console.log(`createMainPlayer id: ${id}`);
+        const player = new Player(this.gameAssets.player_default, id, x, y);
         player.setKeyboards();
         this.addPlayerToGame(player);
     }
 
-    // spawnPlayers(data) {
-    //     for (let i = 0; i < data.number; i++) {
-            
-    //     }
-    // }
-
-    createPlayer(data) {
-        const player = new Player(this.gameAssets.player_default, data.id, data.x, data.y);
-        this.addPlayerToGame(player);
+    spawnPlayers(players, playersNumber) {
+        console.log(`spawnPlayers playersNumber: ${playersNumber}`);
+        for (let i = 0; i < playersNumber; i++) {
+            const player_data = players[i];
+            console.log(`spawn player id: ${player_data.id} x: ${player_data.x} y: ${player_data.y}`);
+            const player = new Player(
+                this.gameAssets.player_default, 
+                player_data.id, player_data.x, player_data.y);
+            this.addPlayerToGame(player);
+        }
     }
 
-    movePlayer(data) {
-        console.log(`id: ${data.id}`);
-        console.log(`x: ${data.x}`);
-        console.log(`y: ${data.y}`);
-
-        const player = this.players.find(player => player.getID() == data.id );
-        if (player != undefined)
-            player.translate(data.x, data.y);
+    movePlayer(id, x, y) {
+        console.log(`movePlayer id: ${id}`);
+        if (this.players.has(id))
+            this.players.get(id).translate(x, y);
         else
             console.log("player is not found");
     }
 
+    addPlayer(id, x, y) {
+        console.log(`addPlayer id: ${id}`);
+        const player = new Player(this.gameAssets.player_default, id, x, y);
+        this.addPlayerToGame(player);
+    }
+    
+    rmvPlayer(id) {
+        console.log(`rmvPlayer id: ${id}`);
+        if (this.players.has(id)) {
+            const player = this.players.get(id);
+            this.container.removeChild(player.getRender());
+            this.players.delete(id);
+        } else
+            console.log("player is not found");
+    }
+
     addPlayerToGame(player) {
-        this.players.push(player);
-        this.container.addChild(player.sprite);
+        console.log(`addPlayerToGame id: ${player.getID()}`);
+        this.players.set(player.getID(), player);
+        this.container.addChild(player.getRender());
     }
 };

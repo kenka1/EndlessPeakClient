@@ -24,8 +24,41 @@ export function getCreatePlayrData(packet) {
     return data;
 }
 
+export function getAddPlayerData(packet) {
+    const view = new DataView(packet);
+    const data = {};
+    data.id = view.getBigUint64(6, false);
+    data.x = view.getFloat64(14, false);
+    data.y = view.getFloat64(22, false);
+    return data;
+}
+
+export function getRmvPlayerData(packet) {
+    const view = new DataView(packet);
+    const data = {};
+    data.id = view.getBigUint64(6, false);
+    return data;
+}
+
 export function getSpawnPlayersData(packet) {
     const view = new DataView(packet);
+    const data = {};
+
+    const playersNumber = view.getBigUint64(6, false);
+    console.log(`number of players: ${playersNumber}`);
+    data.playersNumber = playersNumber;
+
+    data.players = [];
+    for (let i = 0; i < playersNumber; i++) {
+        const offset = 24 * i;
+        const player = {};
+        player.id = view.getBigUint64(14 + offset, false);
+        player.x = view.getFloat64(22 + offset, false);
+        player.y = view.getFloat64(30 + offset, false);
+        data.players[i] = player;
+    }
+    console.log(data);
+    return data;
 }
 
 export function getMoveData(packet) {
