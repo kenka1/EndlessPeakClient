@@ -6,6 +6,10 @@
                 {
                     "alias": "player_default",
                     "src": "/images/player.jpg"
+                },
+                {
+                    "alias": "map_data",
+                    "src": "/test_map.json"
                 }
             ]
         }

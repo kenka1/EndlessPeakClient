@@ -1,4 +1,8 @@
-import { Application, Assets } from "pixi.js";
+import { 
+    Application, 
+    Assets 
+} from "pixi.js";
+import { Camera } from "../game/camera";
 
 export class App {
     async init() {
@@ -15,9 +19,22 @@ export class App {
         this.gameAssets = await Assets.loadBundle("game");
     }
 
-    addSprite(sprite) {
-        this.app.stage.addChild(sprite);
+    addToScreen(child) {
+        this.app.stage.addChild(child);
     }
 
     getGameAssets() { return this.gameAssets; }
+
+    addCamera(camera, player) {
+        this.app.ticker.add(() => {
+            this.#moveCamera(camera, player);
+        });
+    }
+
+    #moveCamera(camera, player) {
+        camera.setX(-player.getX() + this.app.screen.width / 2);
+        camera.setY(-player.getY() + this.app.screen.height / 2);
+        console.log(`moveCamera:\nplayer.x: ${player.getX()}\nplayer.y: ${player.getY()}`);
+    }
+
 };

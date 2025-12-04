@@ -21,6 +21,8 @@ export function getCreatePlayrData(packet) {
     data.id = view.getBigUint64(6, false);
     data.x = view.getFloat64(14, false);
     data.y = view.getFloat64(22, false);
+    data.width = view.getUint8(30, false);
+    data.height = view.getUint8(31, false);
     return data;
 }
 
@@ -30,6 +32,8 @@ export function getAddPlayerData(packet) {
     data.id = view.getBigUint64(6, false);
     data.x = view.getFloat64(14, false);
     data.y = view.getFloat64(22, false);
+    data.width = view.getUint8(30, false);
+    data.height = view.getUint8(32, false);
     return data;
 }
 
@@ -55,6 +59,8 @@ export function getSpawnPlayersData(packet) {
         player.id = view.getBigUint64(14 + offset, false);
         player.x = view.getFloat64(22 + offset, false);
         player.y = view.getFloat64(30 + offset, false);
+        player.width = view.getUint8(38 + offset, false);
+        player.height = view.getUint8( + offset, false);
         data.players[i] = player;
     }
     console.log(data);

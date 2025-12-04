@@ -10,7 +10,7 @@ export class Session {
         })
 
         this.socket.addEventListener("message", event => {
-            console.log(`get message size: ${event.data.byteLength}`);
+            console.log(`recv: ${event.data.byteLength} bytes`);
             const packet = event.data;
             // TODO fix this error
             eventBus.emit("in_packet", packet);
