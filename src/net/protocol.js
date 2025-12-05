@@ -1,9 +1,8 @@
 export const packets = {};
 
-packets["moveForward"] = makeMovePacket(0x0011);
 packets["moveLeft"] = makeMovePacket(0x0012);
-packets["moveBackward"] = makeMovePacket(0x0013);
-packets["moveRight"] = makeMovePacket(0x0014);
+packets["moveRight"] = makeMovePacket(0x0013);
+packets["Jump"] = makeMovePacket(0x0014);
 
 function makeMovePacket(opcode) {
     const packet = new ArrayBuffer(6);   

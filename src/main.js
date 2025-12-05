@@ -6,6 +6,7 @@ import { Camera } from "./game/camera.js";
 async function main() {
     const app = new App();
     await app.init();
+    app.setKeyboards();
     const session = new Session();
     const camera = new Camera();
     const world = new World(app, app.getGameAssets(), camera);

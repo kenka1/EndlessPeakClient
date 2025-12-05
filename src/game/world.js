@@ -12,9 +12,10 @@ export class World {
     gridX;
     gridY;
     tile;
+    #app;
 
     constructor(app, gameAssets, camera) {
-        this.app = app;
+        this.#app = app;
         this.gameAssets = gameAssets;
         this.camera = camera;
         this.gridX = this.gameAssets.map_data.grid_x;
@@ -62,7 +63,7 @@ export class World {
     }
 
     handlePacket(packet) {
-        console.log("game handle packet");
+        // console.log("game handle packet");
 
         const view = new DataView(packet);
         let data = {};
@@ -79,18 +80,6 @@ export class World {
                 console.log("handlePacket(spawn players)");
                 data = protocol.getSpawnPlayersData(packet);
                 this.spawnPlayers(data.players, data.playersNumber);
-                break;
-            case 0x0011:
-                console.log("handlePacket(move forward)");
-                break;
-            case 0x0012:
-                console.log("handlePacket(move left)");
-                break;
-            case 0x0013:
-                console.log("handlePacket(move backward)");
-                break
-            case 0x0014:
-                console.log("handlePacket(move left)");
                 break;
             case 0x0015:
                 console.log("handlePacket(move player)");
@@ -115,9 +104,9 @@ export class World {
     createMainPlayer(id, x, y, width, height) {
         console.log(`createMainPlayer id: ${id}`);
         const player = new Player(id, x, y, width, height);
-        player.setKeyboards();
         this.addPlayerToGame(player);
-        this.app.addCamera(this.camera, player);
+        this.#app.addCamera(this.camera, player);
+        this.#app.setKeyboards();
     }
 
     spawnPlayers(players, playersNumber) {
@@ -138,7 +127,7 @@ export class World {
     }
 
     movePlayer(id, x, y) {
-        console.log(`movePlayer id: ${id}\n x: ${x}\ny: ${y}`);
+        // console.log(`movePlayer id: ${id}\n x: ${x}\ny: ${y}`);
         if (this.players.has(id))
             this.players.get(id).translate(x, y);
         else

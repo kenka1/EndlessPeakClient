@@ -10,7 +10,7 @@ export class Session {
         })
 
         this.socket.addEventListener("message", event => {
-            console.log(`recv: ${event.data.byteLength} bytes`);
+            // console.log(`recv: ${event.data.byteLength} bytes`);
             const packet = event.data;
             // TODO fix this error
             eventBus.emit("in_packet", packet);
@@ -21,7 +21,7 @@ export class Session {
     }
 
     sendPacket(packet) {
-        console.log("send packet to server");
+        // console.log("send packet to server");
         this.socket.send(packet);
     }
 };
