@@ -1,5 +1,4 @@
 import { 
-    Sprite, 
     Container, 
     Text,
     Graphics

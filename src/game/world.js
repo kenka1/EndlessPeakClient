@@ -6,7 +6,6 @@ import { eventBus } from "../shared/event_bus";
 import * as protocol  from "../net/protocol";
 import { Player } from "./player";
 import { Tile } from "./tile";
-import { App } from "../app/app";
 
 export class World {
     gridX;
@@ -106,7 +105,6 @@ export class World {
         const player = new Player(id, x, y, width, height);
         this.addPlayerToGame(player);
         this.#app.addCamera(this.camera, player);
-        this.#app.setKeyboards();
     }
 
     spawnPlayers(players, playersNumber) {

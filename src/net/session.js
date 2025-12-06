@@ -1,7 +1,10 @@
 import { eventBus } from "../shared/event_bus";
 
 export class Session {
-    constructor() {
+    #hz;
+
+    constructor(config) {
+        this.#hz = config.hz;
         this.socket = new WebSocket("wss://localhost:8080");
         this.socket.binaryType = "arraybuffer";
 
@@ -10,9 +13,7 @@ export class Session {
         })
 
         this.socket.addEventListener("message", event => {
-            // console.log(`recv: ${event.data.byteLength} bytes`);
             const packet = event.data;
-            // TODO fix this error
             eventBus.emit("in_packet", packet);
         })
 
@@ -20,8 +21,7 @@ export class Session {
         eventBus.on("out_packet", packet => this.sendPacket(packet));
     }
 
-    sendPacket(packet) {
-        // console.log("send packet to server");
-        this.socket.send(packet);
-    }
+    sendPacket(packet) { this.socket.send(packet); }
+
+    getHz() { return this.#hz; }
 };
