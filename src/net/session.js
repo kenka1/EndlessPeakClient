@@ -10,12 +10,16 @@ export class Session {
 
         this.socket.addEventListener("open", event => {
             console.log("connected!");
-        })
+        });
 
         this.socket.addEventListener("message", event => {
             const packet = event.data;
             eventBus.emit("in_packet", packet);
-        })
+        });
+
+        this.socket.addEventListener("close", event => {
+            console.log(`close connection: ${event.reason} code: ${event.code}`);
+        });
 
         // TODO can not eventBus.off this anonymous function
         eventBus.on("out_packet", packet => this.sendPacket(packet));
