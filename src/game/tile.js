@@ -15,10 +15,10 @@ export class Tile {
     tile
       .setStrokeStyle({
       width: 1,
-      color: '#ff0404ff'
+      color: '#8d8d8dff'
     })
       .rect(x, y, width, height)
-      .fill({color: '#1190a1c5'})
+      .fill({color: '#4f5e68c5'})
       .stroke();
 
     const text = new Text({
@@ -26,7 +26,7 @@ export class Tile {
       style: {
           fontFamily: 'Arial',
           fontSize: 12,
-          fill: '#ff000085',
+          fill: '#ffffff85',
       }
     });
     text.x = x;

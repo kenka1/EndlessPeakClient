@@ -5,7 +5,8 @@ export class Session {
 
     constructor(config) {
         this.#hz = config.hz;
-        this.socket = new WebSocket("wss://localhost:8080");
+        // this.socket = new WebSocket("wss://localhost:8080");
+        this.socket = new WebSocket("ws://localhost:8080");
         this.socket.binaryType = "arraybuffer";
 
         this.socket.addEventListener("open", event => {

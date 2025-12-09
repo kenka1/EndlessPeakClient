@@ -81,7 +81,7 @@ export class World {
                 this.spawnPlayers(data.players, data.playersNumber);
                 break;
             case 0x0015:
-                console.log("handlePacket(move player)");
+                // console.log("handlePacket(move player)");
                 data = protocol.getMoveData(packet);
                 this.movePlayer(data.id, data.x, data.y);
                 break;

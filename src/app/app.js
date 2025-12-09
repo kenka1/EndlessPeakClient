@@ -37,6 +37,7 @@ export class App {
     updateFPS() {
         this.app.ticker.add(() => {
             this.fps.text = this.app.ticker.FPS;
+            // console.log(`fps:: ${this.app.ticker.FPS}`);
         });
     }
 

@@ -23,10 +23,10 @@ export class Player {
         tile
             .setStrokeStyle({
             width: 1,
-            color: '#04c4ffff'
+            color: '#ffffffff'
         })
             .rect(0, 0, width, height)
-            .fill({color: '#b30539ff'})
+            .fill({color: '#e94200ff'})
             .stroke();
 
         const text = new Text({
@@ -34,7 +34,7 @@ export class Player {
             style: {
                 fontFamily: 'Arial',
                 fontSize: 12,
-                fill: '#ff000085'
+                fill: '#ffffff85'
             }
         });
 
