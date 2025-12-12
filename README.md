@@ -62,3 +62,8 @@ Simple visualization works with:
 ```
 git@github.com:kenka1/EndlessPeakServer.git
 ```
+
+## License
+This project is licensed under the MIT License.
+See the LICENSE file for more details.
+
